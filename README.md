@@ -55,7 +55,8 @@ int main() {
 ##OUTPUT
 
 
-![WhatsApp Image 2026-02-07 at 2 12 07 PM](https://github.com/user-attachments/assets/a53557b7-a40f-4b13-8e1c-e6f1d9051bd9)
+![WhatsApp Image 2026-02-07 at 2 22 22 PM](https://github.com/user-attachments/assets/71a620f7-8a35-404f-b1ff-65a0850c7622)
+
 
 
 
