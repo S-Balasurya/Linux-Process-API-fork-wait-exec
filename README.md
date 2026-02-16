@@ -23,39 +23,44 @@ Test the C Program for the desired output.
 
 # PROGRAM:
 
+
 ## C Program to create new process using Linux API system calls fork() and getpid() , getppid() and to print process ID and parent Process ID using Linux API system calls
-~~~
+
+
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
 
-int main() {
-    int pid = fork();
+int main()
+{
+    pid_t pid;
 
-    if (pid == 0) { 
-        printf("I am child, my PID is %d\n", getpid()); 
-        printf("My parent PID is: %d\n", getppid()); 
-        sleep(2);  // Keep child alive for verification
-    } else { 
-        printf("I am parent, my PID is %d\n", getpid()); 
-        wait(NULL); 
+    pid = fork();
+
+    if (pid < 0)
+    {
+        printf("Fork failed\n");
     }
+    else if (pid == 0)
+    {
+        // Child process
+        printf("Child Process\n");
+        printf("Child PID  : %d\n", getpid());
+        printf("Parent PID : %d\n", getppid());
+    }
+    else
+    {
+        // Parent process
+        printf("Parent Process\n");
+        printf("Parent PID : %d\n", getpid());
+    }
+
+    return 0;
 }
-~~~
 
+## OUTPUT
 
+<img width="480" height="173" alt="Screenshot from 2026-02-06 08-53-02" src="https://github.com/user-attachments/assets/2ee27fc2-6499-4a65-9a37-99c487ccfafe" />
 
-
-
-
-
-
-
-
-##OUTPUT
-
-
-![WhatsApp Image 2026-02-07 at 2 22 22 PM](https://github.com/user-attachments/assets/71a620f7-8a35-404f-b1ff-65a0850c7622)
 
 
 
@@ -65,86 +70,36 @@ int main() {
 
 ## C Program to execute Linux system commands using Linux API system calls exec() , exit() , wait() family
 
-~~~
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
 
-int main() {
-    int status;
-    
-    printf("Running ps with execl\n");
-    if (fork() == 0) {
-        execl("ps", "ps", "-f", NULL);
-        perror("execl failed");
+int main()
+{
+    pid_t pid = fork();
+
+    if (pid == 0)
+    {
+        printf("Child process executing ls command\n");
+        execlp("ls", "ls", NULL);
+        perror("Exec failed");
         exit(1);
     }
-    wait(&status);
-    
-    if (WIFEXITED(status)) {
-        printf("Child exited with status: %d\n", WEXITSTATUS(status));
-    } else {
-        printf("Child did not exit successfully\n");
+    else
+    {
+        wait(NULL);
+        printf("Parent process: Child execution completed\n");
     }
-    
-    printf("Running ps with execlp (without full path)\n");
-    if (fork() == 0) {
-        execlp("ps", "ps", "-f", NULL);
-        perror("execlp failed");
-        exit(1);
-    }
-    wait(&status);
-    
-    if (WIFEXITED(status)) {
-        printf("Child exited for execlp with status: %d\n", WEXITSTATUS(status));
-    } else {
-        printf("Child did not exit successfully\n");
-    }
-    
-    printf("Done.\n");
+
     return 0;
 }
 
-~~~
 
 
+## OUTPUT
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##OUTPUT
-
-
-![WhatsApp Image 2026-02-07 at 2 22 23 PM](https://github.com/user-attachments/assets/3f4964fe-af19-46ac-89bb-81b28ec72c82)
-
-
-
-
-
-
-
-
-
-
-
+<img width="480" height="129" alt="Screenshot from 2026-02-06 08-57-39" src="https://github.com/user-attachments/assets/5316ca50-7109-4e4f-b1ce-ff0fd983cf04" />
 
 
 
